@@ -47,6 +47,7 @@ export function useApiKeys() {
     const newKey: ApiKey = { id: acc.id, name: acc.name };
     setKeys(prev => [...prev, newKey]);
     setCurrent(newKey);
+    await apiSelectAccount(newKey.id!);
     invalidateMarketData();
     return newKey;
   }, []);

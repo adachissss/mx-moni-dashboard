@@ -2,6 +2,23 @@
 
 东方财富妙想模拟交易监控平台 — 前端 + 后端完整项目。
 
+## 克隆后快速使用
+
+```bash
+git clone https://github.com/adachissss/mx-moni-dashboard.git
+cd mx-moni-dashboard
+
+# 一次性安装全部依赖（根目录 + 前端 + 后端）
+cd backend && npm install && cd ..
+cd frontend && npm install && cd ..
+
+# 启动前后端
+./start.sh
+# 或分别启动
+# cd backend && npm run dev &
+# cd frontend && npm run dev
+```
+
 ## 功能
 
 - 账户总览（总资产、可用资金、持仓市值、累计盈亏）
@@ -11,6 +28,17 @@
 - 多账户管理（加密存储 API Key）
 - 自动轮询 + 窗口聚焦刷新
 
+### 功能详细说明
+
+| 模块 | 说明 |
+|---|---|
+| **账户总览** | 显示总资产、可用资金、持仓市值、累计盈亏及盈亏率，基准100万模拟资金 |
+| **当前持仓** | 展示持股数量、成本价、现价、盈亏金额/率，支持实时刷新 |
+| **委托订单** | Tab 切换"进行中"与"历史委托"，显示买入/卖出方向、委托价格、数量、成交状态 |
+| **自选股** | 展示自选股最新价、涨跌幅、涨跌额，支持分页 |
+| **多账户管理** | 支持添加/删除多个东方财富 API Key，账户信息 AES-256-GCM 加密存储到 SQLite |
+| **设置** | 可配置自动轮询间隔（10s-5min）、窗口聚焦刷新 |
+
 ## 技术栈
 
 | 层 | 技术 |
@@ -19,6 +47,18 @@
 | 后端 | Node.js + Fastify 5 + TypeScript |
 | 数据库 | SQLite（WAL 模式） |
 | 加密 | AES-256-GCM |
+
+## 环境要求
+
+- **Node.js** ≥ 18.0.0（建议使用 LTS 版本）
+- **npm** ≥ 9.0.0
+- **SQLite**（由 better-sqlite3 提供，预编译二进制，无需单独安装）
+
+检查版本：
+```bash
+node -v  # 应 ≥ 18.0.0
+npm -v   # 应 ≥ 9.0.0
+```
 
 ## 快速启动
 
@@ -37,7 +77,8 @@ cd ../backend && npm install
 
 ```bash
 cp backend/.env.example backend/.env
-# 编辑 backend/.env，填入 ENCRYPTION_KEY（从东方财富获取）
+# ENCRYPTION_KEY 为本地 API Key 加密密钥，不填则自动生成
+# PORT 和 DATA_DIR 通常无需修改
 ```
 
 ### 3. 启动服务
