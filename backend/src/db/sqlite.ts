@@ -91,13 +91,15 @@ class DbCompat {
     if (!_db) throw new Error('db not initialized');
     const stmt = _db.prepare(sql);
     return {
-      all: (): any[] => {
+      all: (...params: any[]): any[] => {
+        if (params.length) stmt.bind(params);
         const rows: any[] = [];
         while (stmt.step()) rows.push(stmt.getAsObject());
         stmt.free();
         return rows;
       },
-      get: (): any => {
+      get: (...params: any[]): any => {
+        if (params.length) stmt.bind(params);
         stmt.step();
         const row = stmt.getAsObject();
         stmt.free();
@@ -108,13 +110,17 @@ class DbCompat {
         stmt.step();
         stmt.free();
         scheduleSave();
-        return { lastInsertRowid: _db!.lastInsertRowid as number };
+        // sql.js doesn't have lastInsertRowid property, query it
+        const row = _db!.exec('SELECT last_insert_rowid() as id')[0];
+        const lastId = row ? (row.values[0][0] as number) : 0;
+        return { lastInsertRowid: lastId };
       },
     };
   }
 
   get lastInsertRowid() {
-    return _db?.lastInsertRowid ?? 0;
+    const row = _db?.exec('SELECT last_insert_rowid() as id')[0];
+    return row ? (row.values[0][0] as number) : 0;
   }
 }
 

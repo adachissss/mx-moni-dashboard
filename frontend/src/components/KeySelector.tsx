@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Dropdown, Button, Modal, Input, Space, message, Popconfirm } from 'antd';
 import { KeyOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useApiKeys } from '../hooks/useApiKeys';
@@ -8,6 +8,8 @@ export function KeySelector() {
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState('');
   const [newKey, setNewKey] = useState('');
+  const [adding, setAdding] = useState(false);
+  const justAdded = useRef(false);
 
   const handleAdd = async () => {
     if (!newName.trim() || !newKey.trim()) {
@@ -18,11 +20,17 @@ export function KeySelector() {
       message.error('名称已存在');
       return;
     }
-    await addKey(newName.trim(), newKey.trim());
-    setNewName('');
-    setNewKey('');
-    setOpen(false);
-    message.success(`已添加账户: ${newName}`);
+    setAdding(true);
+    justAdded.current = true;
+    try {
+      await addKey(newName.trim(), newKey.trim());
+      setNewName('');
+      setNewKey('');
+      setOpen(false);
+    } finally {
+      setAdding(false);
+      justAdded.current = false;
+    }
   };
 
   const handleRemove = async (id: number, name: string) => {
@@ -109,13 +117,21 @@ export function KeySelector() {
               placeholder="账户名称"
               value={newName}
               onChange={e => setNewName(e.target.value)}
+              onPressEnter={handleAdd}
             />
             <Input.Password
               placeholder="API Key"
               value={newKey}
               onChange={e => setNewKey(e.target.value)}
+              onPressEnter={handleAdd}
             />
-            <Button type="primary" icon={<PlusOutlined />} block onClick={handleAdd}>
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              block
+              onClick={handleAdd}
+              loading={adding}
+            >
               添加账户
             </Button>
           </Space>
