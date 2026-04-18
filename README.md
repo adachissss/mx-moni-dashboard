@@ -48,6 +48,106 @@ cd frontend && npm install && cd ..
 | 数据库 | SQLite（WAL 模式） |
 | 加密 | AES-256-GCM |
 
+## 安装 Node.js
+
+本项目需要 Node.js ≥ 18.0.0，以下是各系统的安装方式。
+
+### Windows
+
+**方式一（推荐）：从官网下载安装包**
+
+1. 访问 https://nodejs.org/
+2. 下载 **LTS（长期支持版）** 安装包（.msi 文件）
+3. 双击运行，一路下一步即可
+4. 打开命令提示符（cmd）或 PowerShell 验证：
+   ```
+   node -v
+   npm -v
+   ```
+
+**方式二：使用 Winget（Windows 10/11）**
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+**方式三：使用 Chocolatey**
+```powershell
+choco install nodejs-lts
+```
+
+---
+
+### macOS
+
+**方式一（推荐）：从官网下载安装包**
+
+1. 访问 https://nodejs.org/
+2. 下载 **LTS（长期支持版）** 安装包（.pkg 文件）
+3. 双击运行，一路下一步即可
+
+**方式二：使用 Homebrew**
+```bash
+brew install node@20
+```
+
+验证：
+```bash
+node -v
+npm -v
+```
+
+---
+
+### Linux（Ubuntu / Debian）
+
+```bash
+# 使用 NodeSource 仓库（推荐安装 LTS 版）
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# 验证
+node -v
+npm -v
+```
+
+**其他发行版：**
+- **Fedora**：`sudo dnf install nodejs`
+- **Arch**：`sudo pacman -S nodejs npm`
+- ** Alpine**：`apk add nodejs npm`
+
+---
+
+### 懒人方式：使用 nvm（所有系统）
+
+nvm 可以管理多个 Node.js 版本，随时切换，推荐高级用户使用。
+
+**Linux / macOS：**
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc  # 或 source ~/.zshrc
+nvm install 20
+nvm use 20
+```
+
+**Windows：使用 nvm-windows**
+1. 下载 https://github.com/coreybutler/nvm-windows/releases （nvm-setup.exe）
+2. 安装后打开命令行：
+   ```
+   nvm install lts
+   nvm use lts
+   ```
+
+---
+
+### 验证安装成功
+
+```bash
+node -v   # 应显示 v18.x.x 或 v20.x.x
+npm -v    # 应显示 9.x.x 或更高
+```
+
+---
+
 ## 环境要求
 
 - **Node.js** ≥ 18.0.0（建议使用 LTS 版本）
