@@ -52,7 +52,7 @@ cd frontend && npm install && cd ..
 
 - **Node.js** ≥ 18.0.0（建议使用 LTS 版本）
 - **npm** ≥ 9.0.0
-- **SQLite**（由 better-sqlite3 提供，预编译二进制，无需单独安装）
+- **SQLite**（由 sql.js 提供，纯 JS/WASM 实现，跨平台兼容，无需编译）
 
 检查版本：
 ```bash
@@ -76,18 +76,21 @@ cd ../backend && npm install
 ### 2. 配置环境变量
 
 ```bash
-cp backend/.env.example backend/.env
-# ENCRYPTION_KEY 为本地 API Key 加密密钥，不填则自动生成
+# 后端已默认包含 .env，首次启动会自动生成 ENCRYPTION_KEY
+# 如需持久化密钥，可手动编辑 backend/.env
 # PORT 和 DATA_DIR 通常无需修改
 ```
 
 ### 3. 启动服务
 
 ```bash
-# 方式一：一键启动（前后端同时运行）
+# Linux / macOS
 ./start.sh
 
-# 方式二：分别启动
+# Windows（双击运行或命令行）
+start.bat
+
+# 方式三：分别启动
 # 终端 1 - 后端
 cd backend && npm run dev
 
@@ -119,7 +122,8 @@ cd frontend && npm run dev
 │   ├── package.json
 │   └── tsconfig.json
 ├── data/                # SQLite 数据库目录（运行时创建）
-├── start.sh             # 一键启动脚本
+├── start.sh             # 一键启动脚本 (Linux/macOS)
+├── start.bat            # 一键启动脚本 (Windows)
 └── package.json         # 根目录
 ```
 
