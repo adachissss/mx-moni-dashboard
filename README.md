@@ -5,19 +5,30 @@
 ## 克隆后快速使用
 
 ```bash
+# 第1步：克隆代码
 git clone https://github.com/adachissss/mx-moni-dashboard.git
+
+# 第2步：进入项目目录
 cd mx-moni-dashboard
 
-# 一次性安装全部依赖（根目录 + 前端 + 后端）
-cd backend && npm install && cd ..
-cd frontend && npm install && cd ..
+# 第3步：安装后端依赖
+cd backend
+npm install
+cd ..
 
-# 启动前后端
+# 第4步：安装前端依赖
+cd frontend
+npm install
+cd ..
+
+# 第5步：启动服务（Linux/macOS）
 ./start.sh
-# 或分别启动
-# cd backend && npm run dev &
-# cd frontend && npm run dev
+
+# Windows 用户用这个命令：
+# start.bat
 ```
+
+启动后打开浏览器访问：**http://localhost:5173**
 
 ## 功能
 
@@ -162,43 +173,36 @@ npm -v   # 应 ≥ 9.0.0
 
 ## 快速启动
 
-### 1. 安装依赖
+### 第1步：安装后端依赖
 
 ```bash
-# 安装根目录 concurrently（用于并行启动）
+cd backend
 npm install
-
-# 安装前后端依赖
-cd frontend && npm install
-cd ../backend && npm install
+cd ..
 ```
 
-### 2. 配置环境变量
+### 第2步：安装前端依赖
 
 ```bash
-# 后端已默认包含 .env，首次启动会自动生成 ENCRYPTION_KEY
-# 如需持久化密钥，可手动编辑 backend/.env
-# PORT 和 DATA_DIR 通常无需修改
+cd frontend
+npm install
+cd ..
 ```
 
-### 3. 启动服务
+### 第3步：一键启动前后端
 
 ```bash
-# Linux / macOS
-./start.sh
+# 方式一：一条命令搞定（推荐）
+npm run dev
 
-# Windows（双击运行或命令行）
+# 方式二：Windows 用户也可以双击
 start.bat
 
-# 方式三：分别启动
-# 终端 1 - 后端
-cd backend && npm run dev
-
-# 终端 2 - 前端
-cd frontend && npm run dev
+# 方式三：Linux/macOS 用户
+./start.sh
 ```
 
-启动后访问：**http://localhost:5173**
+> 启动后打开浏览器访问：**http://localhost:5173**
 
 ## 目录结构
 
@@ -224,7 +228,8 @@ cd frontend && npm run dev
 ├── data/                # SQLite 数据库目录（运行时创建）
 ├── start.sh             # 一键启动脚本 (Linux/macOS)
 ├── start.bat            # 一键启动脚本 (Windows)
-└── package.json         # 根目录
+├── package.json         # 根目录（包含 concurrently，可一键启动）
+└── README.md
 ```
 
 ## API 端口
